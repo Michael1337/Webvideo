@@ -1,6 +1,6 @@
 ul.tabs{
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     list-style: none;
     border-bottom: black solid 1px;
 }
@@ -14,6 +14,7 @@ ul.tabs li{
 
 ul.tabs li.current, ul.tabs li:hover {
     text-decoration: underline;
+    background-color: #f5e7c7;
 }
 
 .tab-content{

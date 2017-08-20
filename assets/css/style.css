@@ -16,6 +16,10 @@ body {
     padding: 0 1%;
 }
 
+.tab-season-title {
+    text-align: center;
+}
+
 .episode-container {
     text-align: center;
     border: 1px solid black;

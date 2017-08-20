@@ -18,7 +18,7 @@ $(document).ready(function () {
     var episodenString = "";
     var counter = 1;
     for (var i = 0; i < staffel_count; i++) {
-        episodenString += '<div id="tab-' + (i) + '" class="tab-content">';
+        episodenString += '<div id="tab-' + (i) + '" class="tab-content"><p class="tab-season-title">'+ mydata[i].name +'</p>';
         for (var j = 0; j < episoden_count[i]; j++) {
             episodenString += '<button title="' + mydata[i].episoden[j].title + '" id="' + (i + 1) + '-' + (j + 1) + '" class="btn-default episoden-btn" onclick="clickBtn(' + (i + 1) + ',' + (j + 1) + ')">' + (j + 1) + '</button>';
             counter++;
