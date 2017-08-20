@@ -5,7 +5,7 @@ $(document).ready(function () {
     var staffel_count = mydata.length;
     var tabsString = "";
     for (var i = 0; i < staffel_count; i++) {
-        tabsString += '<li title="' + mydata[i].name + '" class="tab-link" data-tab="tab-' + i + '">' + (i + 1) + '</li>';
+        tabsString += '<li id="tab' + i + '" title="' + mydata[i].name + '" class="tab-link" data-tab="tab-' + i + '">' + (i + 1) + '</li>';
     }
     $("#tabs").append(tabsString);
 
@@ -34,6 +34,11 @@ $(document).ready(function () {
 });
 
 function clickBtn(idS, idE) {
+    // Tab umschalten, Button hervorheben und Video anzeigen
+    $('ul.tabs li').removeClass('current');
+    $("#tab"+(idS-1)).addClass('current');
+    $('.tab-content').removeClass('current');
+    $("#tab-"+(idS-1)).addClass('current');
     $('.episoden-btn').removeClass('current');
     $('#'+idS+'-'+idE).addClass('current');
     showVideo(idS, idE);
