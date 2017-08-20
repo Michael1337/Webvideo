@@ -54,7 +54,7 @@ function showVideo(idS, idE) {
         for (var j = 0; j < mydata[i].episoden.length; j++) {
             if (mydata[i].id === idS && mydata[i].episoden[j].id === idE) {
                 srcString = "assets/videos/" + mydata[i].name + "/" + mydata[i].episoden[j].title + "." + mydata[i].episoden[j].fileextension;
-                titleData = "Staffel: " + mydata[i].id + " | Episode: " + mydata[i].episoden[j].id + " | " + mydata[i].episoden[j].idb;
+                titleData = "Staffel: " + mydata[i].name + " | Episode: " + mydata[i].episoden[j].id + " | " + mydata[i].episoden[j].idb;
                 title = mydata[i].episoden[j].title;
                 found = true;
                 if (found) break;
