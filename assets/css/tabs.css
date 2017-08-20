@@ -7,7 +7,7 @@ ul.tabs{
 ul.tabs li{
     background: none;
     display: inline-block;
-    padding: 10px 10px;
+    padding: 5px 8px;
     cursor: pointer;
     font-weight: bold;
 }
@@ -23,4 +23,9 @@ ul.tabs li.current, ul.tabs li:hover {
 
 .tab-content.current{
     display: inherit;
+}
+
+.tab-link {
+    width: 40px;
+    text-align: center;
 }

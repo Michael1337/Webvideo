@@ -5,6 +5,7 @@ $(document).ready(function () {
     var staffel_count = mydata.length;
     var tabsString = "";
     for (var i = 0; i < staffel_count; i++) {
+        //i < 9 ? tabsNumber = '0' + (i + 1) : tabsNumber = (i + 1);
         tabsString += '<li id="tab' + i + '" title="' + mydata[i].name + '" class="tab-link" data-tab="tab-' + i + '">' + (i + 1) + '</li>';
     }
     $("#tabs").append(tabsString);
@@ -19,7 +20,7 @@ $(document).ready(function () {
     for (var i = 0; i < staffel_count; i++) {
         episodenString += '<div id="tab-' + (i) + '" class="tab-content">';
         for (var j = 0; j < episoden_count[i]; j++) {
-            episodenString += '<button title="' + mydata[i].episoden[j].title + '" id="'+ (i+1)+'-'+(j+1)+ '" class="btn-default episoden-btn" onclick="clickBtn(' + (i+1) + ',' + (j+1) + ')">' + (j+1) + '</button>';
+            episodenString += '<button title="' + mydata[i].episoden[j].title + '" id="' + (i + 1) + '-' + (j + 1) + '" class="btn-default episoden-btn" onclick="clickBtn(' + (i + 1) + ',' + (j + 1) + ')">' + (j + 1) + '</button>';
             counter++;
         }
         episodenString += '</div>';
@@ -36,11 +37,11 @@ $(document).ready(function () {
 function clickBtn(idS, idE) {
     // Tab umschalten, Button hervorheben und Video anzeigen
     $('ul.tabs li').removeClass('current');
-    $("#tab"+(idS-1)).addClass('current');
+    $("#tab" + (idS - 1)).addClass('current');
     $('.tab-content').removeClass('current');
-    $("#tab-"+(idS-1)).addClass('current');
+    $("#tab-" + (idS - 1)).addClass('current');
     $('.episoden-btn').removeClass('current');
-    $('#'+idS+'-'+idE).addClass('current');
+    $('#' + idS + '-' + idE).addClass('current');
     showVideo(idS, idE);
 }
 
@@ -67,14 +68,14 @@ function showVideo(idS, idE) {
             if (idS > 1) {
                 idS = idS - 1;
             }
-            idE = mydata[idS-1].episoden.length;
+            idE = mydata[idS - 1].episoden.length;
             clickBtn(idS, idE);
             return;
         } else if (idS === 0) {
             idS = 1;
             clickBtn(idS, idE);
             return;
-        } else if(idS > mydata.length) {
+        } else if (idS > mydata.length) {
             idS = mydata.length;
             idE = 1;
             clickBtn(idS, idE);
@@ -91,9 +92,9 @@ function showVideo(idS, idE) {
     $("#title").html(titleData + '<br>' + title);
     $("#video").html('<video id="video" class="ep-video" src="' + srcString + '" type="video/mp2" controls></video>');
     $("#controls").html('' +
-        '<button onclick="clickBtn(' +(idS-1)+','+ (1) + ')">Vorige Staffel</button>' +
-        '<button onclick="clickBtn(' +idS+','+ (idE - 1) + ')">Voriges Video</button>' +
-        '<button onclick="clickBtn(' +idS+','+ (idE + 1) + ')">Nächstes Video</button>'+
-        '<button onclick="clickBtn(' +(idS+1)+','+ (1) + ')">Nächste Staffel</button>'
+        '<button onclick="clickBtn(' + (idS - 1) + ',' + (1) + ')">Vorige Staffel</button>' +
+        '<button onclick="clickBtn(' + idS + ',' + (idE - 1) + ')">Voriges Video</button>' +
+        '<button onclick="clickBtn(' + idS + ',' + (idE + 1) + ')">Nächstes Video</button>' +
+        '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')">Nächste Staffel</button>'
     );
 }
