@@ -1,0 +1,26 @@
+ul.tabs{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    border-bottom: black solid 1px;
+}
+ul.tabs li{
+    background: none;
+    display: inline-block;
+    padding: 10px 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+ul.tabs li.current, ul.tabs li:hover {
+    text-decoration: underline;
+}
+
+.tab-content{
+    display: none;
+    padding-top: 10px;
+}
+
+.tab-content.current{
+    display: inherit;
+}
