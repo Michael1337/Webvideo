@@ -19,7 +19,7 @@ $(document).ready(function () {
     for (var i = 0; i < staffel_count; i++) {
         episodenString += '<div id="tab-' + (i) + '" class="tab-content">';
         for (var j = 0; j < episoden_count[i]; j++) {
-            episodenString += '<button title="' + mydata[i].episoden[j].title + '" class="btn-default episoden-btn" onclick="showVideo(' + (i+1) + ',' + (j+1) + ')">' + counter + '</button>';
+            episodenString += '<button title="' + mydata[i].episoden[j].title + '" class="btn-default episoden-btn" onclick="showVideo(' + (i+1) + ',' + (j+1) + ')">' + (j+1) + '</button>';
             counter++;
         }
         episodenString += '</div>';
@@ -29,6 +29,7 @@ $(document).ready(function () {
 
 function showVideo(idS, idE) {
     var srcString;
+    var titleData;
     var title;
     var found = false;
     var mydata = JSON.parse(data);
@@ -36,6 +37,7 @@ function showVideo(idS, idE) {
         for (var j = 0; j < mydata[i].episoden.length; j++) {
             if (mydata[i].id === idS && mydata[i].episoden[j].id === idE) {
                 srcString = "assets/videos/" + mydata[i].name + "/" + mydata[i].episoden[j].title + "." + mydata[i].episoden[j].fileextension;
+                titleData = "Staffel: " + mydata[i].id + " | Episode: " + mydata[i].episoden[j].id + " | " + mydata[i].episoden[j].idb;
                 title = mydata[i].episoden[j].title;
                 found = true;
                 if (found) break;
@@ -49,17 +51,19 @@ function showVideo(idS, idE) {
             idE = mydata[idS-1].episoden.length;
             var lastLast = mydata[idS-1].episoden[idE - 1];
             srcString = "assets/videos/" + mydata[idS-1].name + "/" + lastLast.title + "." + lastLast.fileextension;
+            titleData = mydata[idS - 1].episoden[idE - 1].idb;
             title = mydata[idS - 1].episoden[idE - 1].title;
         } else {
             idS = idS+1;
             idE = 1;
             srcString = "assets/videos/" + mydata[idS-1].name + "/" + mydata[idS-1].episoden[0].title + "." + mydata[idS-1].episoden[0].fileextension;
+            titleData = mydata[idS-1].episoden[0].idb;
             title = mydata[idS-1].episoden[0].title;
         }
 
     }
 
-    $("#title").text(title);
+    $("#title").html(titleData + '<br>' + title);
     $("#video").html('<video id="video" src="' + srcString + '" type="video/mp2" controls width="100%" height="100%"></video>');
     $("#controls").html('' +
         '<button onclick="showVideo(' +(idS-1)+','+ (1) + ')">Vorige Staffel</button>' +
