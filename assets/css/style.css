@@ -21,6 +21,12 @@ body {
     border: 1px solid black;
     padding: 1% 1%;
 }
+
+.ep-video {
+    width: 90%;
+    height: 90%;
+}
+
 .ep-title {
     text-align: center;
     font-size: 1.2em;
@@ -28,4 +34,9 @@ body {
 
 .episoden-btn {
     width: 40px;
+}
+
+.episoden-btn.current {
+    font-weight: bold;
+    color: red;
 }

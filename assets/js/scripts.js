@@ -19,13 +19,25 @@ $(document).ready(function () {
     for (var i = 0; i < staffel_count; i++) {
         episodenString += '<div id="tab-' + (i) + '" class="tab-content">';
         for (var j = 0; j < episoden_count[i]; j++) {
-            episodenString += '<button title="' + mydata[i].episoden[j].title + '" class="btn-default episoden-btn" onclick="showVideo(' + (i+1) + ',' + (j+1) + ')">' + (j+1) + '</button>';
+            episodenString += '<button title="' + mydata[i].episoden[j].title + '" id="'+ (i+1)+'-'+(j+1)+ '" class="btn-default episoden-btn" onclick="clickBtn(' + (i+1) + ',' + (j+1) + ')">' + (j+1) + '</button>';
             counter++;
         }
         episodenString += '</div>';
     }
     $("#tabsEpisodes").append(episodenString);
+
+    // initialisieren
+    showVideo(1, 1);
+    $('ul.tabs li').first().addClass("current");
+    $('#tab-0').addClass("current");
+    $('.episoden-btn').first().addClass("current");
 });
+
+function clickBtn(idS, idE) {
+    $('.episoden-btn').removeClass('current');
+    $('#'+idS+'-'+idE).addClass('current');
+    showVideo(idS, idE);
+}
 
 function showVideo(idS, idE) {
     var srcString;
@@ -46,29 +58,37 @@ function showVideo(idS, idE) {
         if (found) break;
     }
     if (!found) {
-        if (idE < 1) {
-            idS = idS - 1;
+        if (idE === 0) {
+            if (idS > 1) {
+                idS = idS - 1;
+            }
             idE = mydata[idS-1].episoden.length;
-            var lastLast = mydata[idS-1].episoden[idE - 1];
-            srcString = "assets/videos/" + mydata[idS-1].name + "/" + lastLast.title + "." + lastLast.fileextension;
-            titleData = mydata[idS - 1].episoden[idE - 1].idb;
-            title = mydata[idS - 1].episoden[idE - 1].title;
-        } else {
-            idS = idS+1;
+            clickBtn(idS, idE);
+            return;
+        } else if (idS === 0) {
+            idS = 1;
+            clickBtn(idS, idE);
+            return;
+        } else if(idS > mydata.length) {
+            idS = mydata.length;
             idE = 1;
-            srcString = "assets/videos/" + mydata[idS-1].name + "/" + mydata[idS-1].episoden[0].title + "." + mydata[idS-1].episoden[0].fileextension;
-            titleData = mydata[idS-1].episoden[0].idb;
-            title = mydata[idS-1].episoden[0].title;
+            clickBtn(idS, idE);
+            return;
+        } else {
+            idS = idS + 1;
+            idE = 1;
+            clickBtn(idS, idE);
+            return;
         }
 
     }
 
     $("#title").html(titleData + '<br>' + title);
-    $("#video").html('<video id="video" src="' + srcString + '" type="video/mp2" controls width="100%" height="100%"></video>');
+    $("#video").html('<video id="video" class="ep-video" src="' + srcString + '" type="video/mp2" controls></video>');
     $("#controls").html('' +
-        '<button onclick="showVideo(' +(idS-1)+','+ (1) + ')">Vorige Staffel</button>' +
-        '<button onclick="showVideo(' +idS+','+ (idE - 1) + ')">Voriges Video</button>' +
-        '<button onclick="showVideo(' +idS+','+ (idE + 1) + ')">Nächstes Video</button>'+
-        '<button onclick="showVideo(' +(idS+1)+','+ (1) + ')">Nächste Staffel</button>'
+        '<button onclick="clickBtn(' +(idS-1)+','+ (1) + ')">Vorige Staffel</button>' +
+        '<button onclick="clickBtn(' +idS+','+ (idE - 1) + ')">Voriges Video</button>' +
+        '<button onclick="clickBtn(' +idS+','+ (idE + 1) + ')">Nächstes Video</button>'+
+        '<button onclick="clickBtn(' +(idS+1)+','+ (1) + ')">Nächste Staffel</button>'
     );
 }
