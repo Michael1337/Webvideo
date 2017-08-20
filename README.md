@@ -9,10 +9,10 @@ assets<br>
 ----...<br>
 --js<br>
 ----...<br>
-videos<br>
---Staffel 1 - Der Anfang<br>
-----Folge 1 - eins.mp4<br>
-----Folge 2 - zwei.mp4<br>
+--videos<br>
+----Staffel 1 - Der Anfang<br>
+------Folge 1 - eins.mp4<br>
+------Folge 2 - zwei.mp4<br>
 --create_json.jar<br>
 index.html<br>
 .-----------------------------. 
