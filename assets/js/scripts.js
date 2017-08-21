@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    autoplay = "";
+    autoplayStatus = "Autoplay einschalten";
+
     // Tabs vorbereiten
     var mydata = JSON.parse(data);
 
@@ -90,11 +93,37 @@ function showVideo(idS, idE) {
     }
 
     $("#title").html(titleData + '<br>' + title);
-    $("#video").html('<video id="video" class="ep-video" src="' + srcString + '" type="video/mp2" controls></video>');
+    $("#video-container").html('<video id="video" class="ep-video" src="' + srcString + '" type="video/mp2" controls '+autoplay+'></video>');
     $("#controls").html('' +
         '<button onclick="clickBtn(' + (idS - 1) + ',' + (1) + ')">Vorige Staffel</button>' +
         '<button onclick="clickBtn(' + idS + ',' + (idE - 1) + ')">Voriges Video</button>' +
-        '<button onclick="clickBtn(' + idS + ',' + (idE + 1) + ')">Nächstes Video</button>' +
+        '<button id="toggleAutoplayBtn" onclick="toggleAutoplay()">' + autoplayStatus + '</button>' +
+        '<button id="ne" onclick="clickBtn(' + idS + ',' + (idE + 1) + ')">Nächstes Video</button>' +
         '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')">Nächste Staffel</button>'
     );
+
+    if (autoplay === "autoplay") {
+        autoplayF();
+    }
+}
+
+function autoplayF() {
+    document.getElementById('video').addEventListener('ended',nextVideo,false);
+    function nextVideo(e) {
+        if(autoplay === "autoplay") {
+            $("#ne").click();
+        }
+    }
+}
+
+function toggleAutoplay() {
+    if (autoplay === "autoplay") {
+        autoplay = "";
+        autoplayStatus = "Autoplay einschalten";
+    } else {
+        autoplay = "autoplay";
+        autoplayStatus = "Autoplay ausschalten";
+    }
+    $("#toggleAutoplayBtn").text(autoplayStatus);
+    autoplayF();
 }
