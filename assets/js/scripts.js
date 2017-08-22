@@ -101,8 +101,10 @@ function showVideo(idS, idE) {
         '<button id="ne" onclick="clickBtn(' + idS + ',' + (idE + 1) + ')" class="btn btn-primary btn-sm">Nächstes Video</button>' +
         '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')" class="btn btn-primary btn-sm">Nächste Staffel</button>' +
         '<select id="selectSpeed" onchange="changeSpeed(this.value)" class="form-control">' +
+            '<option value="3.0">3.0</option>' +
             '<option value="2.0">2.0</option>' +
             '<option value="1.5">1.5</option>' +
+            '<option value="1.25">1.25</option>' +
             '<option value="1.0" selected="selected">1.0</option>' +
             '<option value="0.5">0.5</option>' +
         '</select>' +
