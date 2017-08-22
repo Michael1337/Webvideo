@@ -94,18 +94,19 @@ function showVideo(idS, idE) {
 
     $("#title").html(titleData + '<br>' + title);
     $("#video-container").html('<video id="video" class="ep-video" src="' + srcString + '" type="video/mp2" controls '+autoplay+'></video>');
-    $("#controls").html('' +
-        '<button onclick="clickBtn(' + (idS - 1) + ',' + (1) + ')">Vorige Staffel</button>' +
-        '<button onclick="clickBtn(' + idS + ',' + (idE - 1) + ')">Voriges Video</button>' +
-        '<button id="toggleAutoplayBtn" onclick="toggleAutoplay()">' + autoplayStatus + '</button>' +
-        '<button id="ne" onclick="clickBtn(' + idS + ',' + (idE + 1) + ')">Nächstes Video</button>' +
-        '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')">Nächste Staffel</button>' +
-        '<select id="selectSpeed" onchange="changeSpeed(this.value)">' +
+    $("#controls").html('<div class="form-inline">' +
+        '<button onclick="clickBtn(' + (idS - 1) + ',' + (1) + ')" class="btn btn-primary btn-sm">Vorige Staffel</button>' +
+        '<button onclick="clickBtn(' + idS + ',' + (idE - 1) + ')" class="btn btn-primary btn-sm">Voriges Video</button>' +
+        '<button id="toggleAutoplayBtn" onclick="toggleAutoplay()" class="btn btn-primary btn-sm">' + autoplayStatus + '</button>' +
+        '<button id="ne" onclick="clickBtn(' + idS + ',' + (idE + 1) + ')" class="btn btn-primary btn-sm">Nächstes Video</button>' +
+        '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')" class="btn btn-primary btn-sm">Nächste Staffel</button>' +
+        '<select id="selectSpeed" onchange="changeSpeed(this.value)" class="form-control">' +
             '<option value="2.0">2.0</option>' +
             '<option value="1.5">1.5</option>' +
             '<option value="1.0" selected="selected">1.0</option>' +
             '<option value="0.5">0.5</option>' +
-        '</select>'
+        '</select>' +
+        '</div>'
     );
 
     if (autoplay === "autoplay") {
