@@ -99,7 +99,13 @@ function showVideo(idS, idE) {
         '<button onclick="clickBtn(' + idS + ',' + (idE - 1) + ')">Voriges Video</button>' +
         '<button id="toggleAutoplayBtn" onclick="toggleAutoplay()">' + autoplayStatus + '</button>' +
         '<button id="ne" onclick="clickBtn(' + idS + ',' + (idE + 1) + ')">Nächstes Video</button>' +
-        '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')">Nächste Staffel</button>'
+        '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')">Nächste Staffel</button>' +
+        '<select id="selectSpeed" onchange="changeSpeed(this.value)">' +
+            '<option value="2.0">2.0</option>' +
+            '<option value="1.5">1.5</option>' +
+            '<option value="1.0" selected="selected">1.0</option>' +
+            '<option value="0.5">0.5</option>' +
+        '</select>'
     );
 
     if (autoplay === "autoplay") {
@@ -126,4 +132,8 @@ function toggleAutoplay() {
     }
     $("#toggleAutoplayBtn").text(autoplayStatus);
     autoplayF();
+}
+
+function changeSpeed(speed) {
+    $("#video")[0].playbackRate = speed;
 }
