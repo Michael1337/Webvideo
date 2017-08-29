@@ -1,6 +1,6 @@
 $(document).ready(function () {
     autoplay = "";
-    autoplayStatus = "Autoplay einschalten";
+    autoplayStatus = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span> Autoplay an';
 
     // Tabs vorbereiten
     var mydata = JSON.parse(data);
@@ -57,7 +57,7 @@ function showVideo(idS, idE) {
     for (var i = 0; i < mydata.length; i++) {
         for (var j = 0; j < mydata[i].episoden.length; j++) {
             if (mydata[i].id === idS && mydata[i].episoden[j].id === idE) {
-                srcString = "assets/videos/" + mydata[i].name + "/" + mydata[i].episoden[j].title + "." + mydata[i].episoden[j].fileextension;
+                srcString = rootPath + "/" + mydata[i].name + "/" + mydata[i].episoden[j].title + "." + mydata[i].episoden[j].fileextension;
                 titleData = "Staffel: " + mydata[i].name + " | Episode: " + mydata[i].episoden[j].id + " | " + mydata[i].episoden[j].idb;
                 title = mydata[i].episoden[j].title;
                 found = true;
@@ -95,19 +95,19 @@ function showVideo(idS, idE) {
     $("#title").html(titleData + '<br>' + title);
     $("#video-container").html('<video id="video" class="ep-video" src="' + srcString + '" type="video/mp2" controls '+autoplay+'></video>');
     $("#controls").html('<div class="form-inline">' +
-        '<button onclick="clickBtn(' + (idS - 1) + ',' + (1) + ')" class="btn btn-primary btn-sm">Vorige Staffel</button>' +
-        '<button onclick="clickBtn(' + idS + ',' + (idE - 1) + ')" class="btn btn-primary btn-sm">Voriges Video</button>' +
-        '<button id="toggleAutoplayBtn" onclick="toggleAutoplay()" class="btn btn-primary btn-sm">' + autoplayStatus + '</button>' +
-        '<button id="ne" onclick="clickBtn(' + idS + ',' + (idE + 1) + ')" class="btn btn-primary btn-sm">Nächstes Video</button>' +
-        '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')" class="btn btn-primary btn-sm">Nächste Staffel</button>' +
-        '<select id="selectSpeed" onchange="changeSpeed(this.value)" class="form-control">' +
+        '<div class="btn-group"><button onclick="clickBtn(' + (idS - 1) + ',' + (1) + ')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span> Vorige Staffel</button>' +
+        '<button onclick="clickBtn(' + idS + ',' + (idE - 1) + ')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> Voriges Video</button>' +
+        '<button id="ne" onclick="clickBtn(' + idS + ',' + (idE + 1) + ')" class="btn btn-default btn-sm">Nächstes Video <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button>' +
+        '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')" class="btn btn-default btn-sm">Nächste Staffel <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></button></div>' +
+        '<button id="toggleAutoplayBtn" onclick="toggleAutoplay()" class="btn btn-default btn-sm btn-autoplay">' + autoplayStatus + '</button>' +
+        '<div class="input-group"><span class="input-group-addon">Speed</span><select id="selectSpeed" onchange="changeSpeed(this.value)" class="form-control selectSpeed">' +
             '<option value="3.0">3.0</option>' +
             '<option value="2.0">2.0</option>' +
             '<option value="1.5">1.5</option>' +
             '<option value="1.25">1.25</option>' +
             '<option value="1.0" selected="selected">1.0</option>' +
             '<option value="0.5">0.5</option>' +
-        '</select>' +
+        '</select></div>' +
         '</div>'
     );
 
@@ -128,12 +128,12 @@ function autoplayF() {
 function toggleAutoplay() {
     if (autoplay === "autoplay") {
         autoplay = "";
-        autoplayStatus = "Autoplay einschalten";
+        autoplayStatus = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span> Autoplay an';
     } else {
         autoplay = "autoplay";
-        autoplayStatus = "Autoplay ausschalten";
+        autoplayStatus = '<span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Autoplay aus';
     }
-    $("#toggleAutoplayBtn").text(autoplayStatus);
+    $("#toggleAutoplayBtn").html(autoplayStatus);
     autoplayF();
 }
 

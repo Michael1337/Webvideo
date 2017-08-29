@@ -44,3 +44,19 @@ body {
     font-weight: bold;
     color: red;
 }
+
+.selectSpeed {
+    padding: 6px 6px;
+}
+
+.input-group, .btn-group {
+    padding: 0 5px;
+}
+
+.btn {
+    height: 34px;
+}
+
+.btn-autoplay {
+    min-width: 107px;
+}
