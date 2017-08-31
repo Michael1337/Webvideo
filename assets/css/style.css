@@ -10,6 +10,15 @@ object {
 body {
     background-color: #e5d7b7;
 }
+.bright {
+    color: black;
+    background-color: #e5d7b7;
+}
+
+.dark {
+    color: white;
+    background-color: black;
+}
 
 .container-custom {
     border: 1px solid black;
@@ -59,4 +68,8 @@ body {
 
 .btn-autoplay {
     min-width: 107px;
+}
+
+.btn-switchLight {
+    min-width: 85px;
 }

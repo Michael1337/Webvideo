@@ -1,6 +1,9 @@
 $(document).ready(function () {
     autoplay = "";
-    autoplayStatus = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span> Autoplay an';
+    autoplayStatus = false;
+    autoplayTxt = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span> Autoplay an';
+    lightStatus = true;
+    lightTxt = '<span class="glyphicon glyphicon-off" aria-hidden="true"></span> Licht aus';
 
     // Tabs vorbereiten
     var mydata = JSON.parse(data);
@@ -93,13 +96,15 @@ function showVideo(idS, idE) {
     }
 
     $("#title").html(titleData + '<br>' + title);
-    $("#video-container").html('<video id="video" class="ep-video" src="' + srcString + '" type="video/mp2" controls '+autoplay+'></video>');
+    $("#video-container").html('<video id="video" class="ep-video" src="' + srcString + '" type="video/mp4" controls '+autoplay+'></video>');
     $("#controls").html('<div class="form-inline">' +
+        '<button id="leftSwitch" onclick="toggleLeft()" class="pull-left btn btn-default btn-sm"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button>' +
+        '<button id="switchLight" onclick="switchLight()" class="btn btn-default btn-sm btn-switchLight">' + lightTxt + '</button>' +
         '<div class="btn-group"><button onclick="clickBtn(' + (idS - 1) + ',' + (1) + ')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span> Vorige Staffel</button>' +
         '<button onclick="clickBtn(' + idS + ',' + (idE - 1) + ')" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> Voriges Video</button>' +
         '<button id="ne" onclick="clickBtn(' + idS + ',' + (idE + 1) + ')" class="btn btn-default btn-sm">Nächstes Video <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button>' +
         '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')" class="btn btn-default btn-sm">Nächste Staffel <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></button></div>' +
-        '<button id="toggleAutoplayBtn" onclick="toggleAutoplay()" class="btn btn-default btn-sm btn-autoplay">' + autoplayStatus + '</button>' +
+        '<button id="toggleAutoplayBtn" onclick="toggleAutoplay()" class="btn btn-default btn-sm btn-autoplay">' + autoplayTxt + '</button>' +
         '<div class="input-group"><span class="input-group-addon">Speed</span><select id="selectSpeed" onchange="changeSpeed(this.value)" class="form-control selectSpeed">' +
             '<option value="3.0">3.0</option>' +
             '<option value="2.0">2.0</option>' +
@@ -111,7 +116,7 @@ function showVideo(idS, idE) {
         '</div>'
     );
 
-    if (autoplay === "autoplay") {
+    if (autoplayStatus === true) {
         autoplayF();
     }
 }
@@ -119,22 +124,42 @@ function showVideo(idS, idE) {
 function autoplayF() {
     document.getElementById('video').addEventListener('ended',nextVideo,false);
     function nextVideo(e) {
-        if(autoplay === "autoplay") {
+        if(autoplayStatus === true) {
             $("#ne").click();
         }
     }
 }
 
 function toggleAutoplay() {
-    if (autoplay === "autoplay") {
+    if (autoplayStatus === true) {
+        autoplayStatus = false;
         autoplay = "";
-        autoplayStatus = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span> Autoplay an';
+        autoplayTxt = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span> Autoplay an';
     } else {
+        autoplayStatus = true;
         autoplay = "autoplay";
-        autoplayStatus = '<span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Autoplay aus';
+        autoplayTxt = '<span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Autoplay aus';
     }
-    $("#toggleAutoplayBtn").html(autoplayStatus);
+    $("#toggleAutoplayBtn").html(autoplayTxt);
     autoplayF();
+}
+
+function switchLight() {
+    if (lightStatus === true) {
+        lightStatus = false;
+        lightTxt = '<span class="glyphicon glyphicon-off" aria-hidden="true"></span> Licht an';
+    } else {
+        lightStatus = true;
+        lightTxt = '<span class="glyphicon glyphicon-off" aria-hidden="true"></span> Licht aus';
+    }
+    $('#main-container').toggleClass("bright").toggleClass("dark");
+    $("#switchLight").html(lightTxt);
+}
+
+function toggleLeft() {
+    $('#left-container').toggleClass("hide");
+    $('#right-container').toggleClass("col-xs-offset-1");
+    $('#leftSwitch > .glyphicon').toggleClass("glyphicon-chevron-left").toggleClass("glyphicon-chevron-right");
 }
 
 function changeSpeed(speed) {
