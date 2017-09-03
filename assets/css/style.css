@@ -36,8 +36,8 @@ body {
 }
 
 .ep-video {
-    width: 95%;
-    height: 95%;
+    max-width: 95%;
+    min-width: 70%;
 }
 
 .ep-title {
