@@ -10,14 +10,24 @@ object {
 body {
     background-color: #e5d7b7;
 }
+
 .bright {
     color: black;
     background-color: #e5d7b7;
 }
 
-.dark {
+.dark, .dark ul.tabs li.current {
     color: white;
     background-color: black;
+}
+
+.dark ul.tabs li.current {
+    background-color: #111111;
+}
+
+.dark .btn-default, .dark .input-group-addon, .dark .selectSpeed {
+    color: white;
+    background-color: #111111;
 }
 
 .container-custom {
