@@ -16,6 +16,7 @@ out
 
 # Package Files #
 *.jar
+!WebFrontend/assets/create_json.jar
 *.war
 *.nar
 *.ear
