@@ -25,7 +25,7 @@ body {
     background-color: #111111;
 }
 
-.dark .btn-default, .dark .input-group-addon, .dark .selectSpeed {
+.dark .btn-default, .dark .input-group-addon, .dark .select {
     color: white;
     background-color: #111111;
 }
@@ -64,7 +64,7 @@ body {
     color: red;
 }
 
-.selectSpeed {
+.select {
     padding: 6px 6px;
 }
 

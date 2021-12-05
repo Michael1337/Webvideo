@@ -3,6 +3,7 @@ let autoplayTxt = '<span class="glyphicon glyphicon-play" aria-hidden="true"></s
 let light = true;
 let lightTxt = '<span class="glyphicon glyphicon-off" aria-hidden="true"></span> Licht aus';
 let left = false;
+let language = false;
 const jsonData = JSON.parse(data);
 
 $(document).ready(function () {
@@ -104,7 +105,9 @@ function showVideo(idS, idE) {
     }
 
     $("#title").html(titleData + '<br>' + title);
-    $("#video-container").html('<video id="video" class="ep-video" src="' + srcString + '" type="video/mp4" controls ' + (autoplay ? "autoplay" : "") + '></video>');
+    $("#video-container").html('<video id="video" class="ep-video" src="' + srcString + '" type="video/mp4" controls></video>');
+
+
     $("#controls").html('<div class="form-inline">' +
       '<button id="leftSwitch" onclick="toggleLeft()" class="pull-left btn btn-default btn-sm"><span class="glyphicon glyphicon-chevron-' + (left ? "right" : "left") + '" aria-hidden="true"></span></button>' +
       '<button id="switchLight" onclick="toggleLight()" class="btn btn-default btn-sm btn-switchLight">' + lightTxt + '</button>' +
@@ -113,7 +116,7 @@ function showVideo(idS, idE) {
       '<button id="ne" onclick="clickBtn(' + idS + ',' + (idE + 1) + ')" class="btn btn-default btn-sm">Nächstes Video <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button>' +
       '<button onclick="clickBtn(' + (idS + 1) + ',' + (1) + ')" class="btn btn-default btn-sm">Nächste Staffel <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></button></div>' +
       '<button id="toggleAutoplayBtn" onclick="toggleAutoplay()" class="btn btn-default btn-sm btn-autoplay">' + autoplayTxt + '</button>' +
-      '<div class="input-group"><span class="input-group-addon">Speed</span><select id="selectSpeed" onchange="changeSpeed(this.value)" class="form-control selectSpeed">' +
+      '<div class="input-group"><span class="input-group-addon">Speed</span><select id="selectSpeed" onchange="changeSpeed(this.value)" class="form-control select">' +
       '<option value="3.0">3.0</option>' +
       '<option value="2.0">2.0</option>' +
       '<option value="1.5">1.5</option>' +
@@ -124,12 +127,35 @@ function showVideo(idS, idE) {
       '</div>'
     );
 
-    document.getElementById('video').addEventListener('ended', nextVideo, false);
+    const video = document.getElementById("video");
 
-    function nextVideo(e) {
-        if (autoplay) {
-            $("#ne").click();
+    video.addEventListener('loadeddata', function () {
+        if (autoplay) video.play();
+
+        if (typeof video.audioTracks == 'undefined') {
+            let audioTracksNote = '<span class="note">Um zwischen verschiedenen Audiospuren wechseln zu können, muss im Google Chrome chrome://flags/#enable-experimental-web-platform-features enabled sein.</span>';
+
+            insertAfter(createElementFromHTML(audioTracksNote), document.getElementById("controls"));
+            return;
         }
+        if (video.audioTracks.length <= 1) return; // if 0, then no audio track can be played
+
+        changeVideoLanguage(video, language);
+        let changeLanguageControl = '<div class="input-group"><span class="input-group-addon">Sprache</span><select id="selectLanguage" onchange="changeLanguage(video, this.value)" class="form-control select">';
+        for (let i = 0; i < video.audioTracks.length; i += 1) {
+            changeLanguageControl += '<option value="' + video.audioTracks[i].id + '" ' + (video.audioTracks[i].id === language ? 'selected="selected"' : "") + '>' + video.audioTracks[i].language + '</option>'
+        }
+        changeLanguageControl += '</select></div>';
+        insertAfter(createElementFromHTML(changeLanguageControl), document.getElementById("switchLight"));
+    }, false);
+
+
+    document.getElementById('video').addEventListener('ended', nextVideo, false);
+}
+
+function nextVideo(e) {
+    if (autoplay) {
+        $("#ne").click();
     }
 }
 
@@ -160,4 +186,36 @@ function toggleLeft() {
 
 function changeSpeed(speed) {
     $("#video")[0].playbackRate = speed;
+}
+
+function changeLanguage(video, videoLanguage) {
+    language = videoLanguage;
+    changeVideoLanguage(video, videoLanguage);
+
+}
+
+function changeVideoLanguage(video, videoLanguage) {
+    if (!videoLanguage) return;
+
+    const wasPaused = video.paused;
+    const time = video.currentTime;
+    video.pause();
+    for (let i = 0; i < video.audioTracks.length; i += 1) {
+        video.audioTracks[i].enabled = video.audioTracks[i].id === videoLanguage;
+    }
+
+    video.currentTime = time - 1;
+    if (!wasPaused) video.play();
+}
+
+function createElementFromHTML(htmlString) {
+    let div = document.createElement('div');
+    div.innerHTML = htmlString.trim();
+
+    // Change this to div.childNodes to support multiple top-level nodes
+    return div.firstChild;
+}
+
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
