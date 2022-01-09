@@ -68,6 +68,10 @@ body {
     padding: 6px 6px;
 }
 
+input.skip {
+    width: 80px !important;
+}
+
 .input-group, .btn-group {
     padding: 0 5px;
 }
